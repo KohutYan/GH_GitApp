@@ -1,6 +1,6 @@
-package com.kohutyan.gh_gitapp
+package com.kohutyan.gh_gitapp.response
 
-data class Repository(
+data class Item(
     val name: String,
     val id: Long,
     val url: String,
@@ -11,5 +11,3 @@ data class Repository(
     val language: String,
     val score: Int
 )
-
-data class Result (val total_count: Int, val incomplete_results: Boolean, val items: List<Repository>)
