@@ -1,4 +1,4 @@
-package com.kohutyan.gh_gitapp
+package com.kohutyan.gh_gitapp.repository
 
 import com.kohutyan.gh_gitapp.response.GithubApiService
 import com.kohutyan.gh_gitapp.response.SearchResponse
