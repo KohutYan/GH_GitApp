@@ -8,14 +8,16 @@ const val RESPONSE_ID = 0
 
 @Entity(tableName = "searchResponse")
 
-class SearchResponse {
+data class SearchResponse(
     @SerializedName("items")
-    var items: List<Item>? = null
+    var items: List<Item> = emptyList(),
+
     @SerializedName("incomplete_results")
-    var incomplete_results: Boolean? = null
+    var incomplete_results: Boolean? = null,
+
     @SerializedName("total_count")
-    var total_count: Int? = null
+    var total_count: Int? = null,
 
     @PrimaryKey(autoGenerate = false)
     var id: Int = RESPONSE_ID
-}
+)

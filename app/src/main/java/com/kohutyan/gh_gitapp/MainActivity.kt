@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         recyclerView_search.adapter = SearchAdapter(items)
         recyclerView_search.layoutManager = LinearLayoutManager(this)
-        GithubApiService.create()
+        fun create() = GithubApiService.create()
     }
+
 }

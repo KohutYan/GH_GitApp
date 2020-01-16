@@ -4,10 +4,7 @@ import android.widget.EditText
 import com.kohutyan.gh_gitapp.R
 import com.kohutyan.gh_gitapp.SearchAdapter
 import kotlinx.android.synthetic.main.search_list_fragment.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,7 +19,8 @@ interface GithubApiService {
     fun search(@Query("q") query: String): Call<SearchResponse>
 
     companion object Factory {
-        lateinit var adapter: SearchAdapter
+        lateinit var item: List<Item>
+        val adapter = SearchAdapter(item)
         fun create() {
             val retrofit = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
@@ -30,8 +28,8 @@ interface GithubApiService {
                 .build()
 
             val service = retrofit.create(GithubApiService::class.java)
-            CoroutineScope(Dispatchers.IO).launch {
-                var query = R.id.searchbar.toString()
+            GlobalScope.launch(Dispatchers.IO) {
+                val query = R.id.searchbar.toString()
                 val call = service.search(query)
                 withContext(Dispatchers.Main) {
                     call.enqueue(object : Callback<SearchResponse?> {
@@ -46,6 +44,11 @@ interface GithubApiService {
                             val body = response.body()
 
                             val items = body?.items
+
+                            if (items != null) {
+                                item = items
+                            }
+
                             adapter.notifyDataSetChanged()
                         }
                     })
