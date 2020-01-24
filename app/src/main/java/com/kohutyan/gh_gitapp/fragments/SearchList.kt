@@ -7,8 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.kohutyan.gh_gitapp.MainActivity
 import com.kohutyan.gh_gitapp.R
+import com.kohutyan.gh_gitapp.SearchAdapter
 import com.kohutyan.gh_gitapp.viewmodels.SearchListViewModel
+import kotlinx.android.synthetic.main.search_list_fragment.*
 
 
 class   SearchList : Fragment() {
@@ -23,6 +27,9 @@ class   SearchList : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val items = viewModel.items.value
+        recyclerView_search.adapter = SearchAdapter(items)
+        recyclerView_search.layoutManager = LinearLayoutManager(MainActivity())
         return inflater.inflate(R.layout.search_list_fragment, container, false)
     }
 
@@ -32,8 +39,9 @@ class   SearchList : Fragment() {
         viewModel.items.observe(this, Observer {
             //TODO: set items into RV adapter
         })
-
-        viewModel.onSearchClicked("XSmile2008")//TODO: move this into onClickListener
+        search_button.setOnClickListener {
+            viewModel.onSearchClicked("XSmile2008")
+        }
     }
 
 }
